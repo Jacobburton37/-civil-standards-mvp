@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0d5f55" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="CivilStandards" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="description" content="Search and monitor current jurisdictional civil engineering standards." />
+  <title>CivilStandards — Jurisdiction Standards Library</title>
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-wrap">
+      <div class="brand-mark">CS</div>
+      <div>
+        <div class="brand">CivilStandards</div>
+        <div class="tagline">Jurisdiction standards, organized.</div>
+      </div>
+    </div>
+    <nav>
+      <button id="installButton" class="install-btn" type="button">Add to Home</button>
+      <button class="nav-btn active" data-view="library">Library</button>
+      <button class="nav-btn" data-view="changes">Changes</button>
+      <button class="nav-btn" data-view="about">About</button>
+      <button class="nav-btn" data-view="admin">Admin</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="view-library" class="view active">
+      <section class="hero">
+        <div>
+          <span class="eyebrow">MARYLAND MVP</span>
+          <h1>Find the standard.<br><span>Know when it changed.</span></h1>
+          <p>Search official civil standards by jurisdiction, discipline, and document type. Every record links back to the governing agency.</p>
+        </div>
+        <div class="verification-card">
+          <div class="pulse"></div>
+          <div>
+            <strong>Source monitoring enabled</strong>
+            <p>Changes are flagged for review before being treated as current.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats" id="stats"></section>
+
+      <section class="search-panel">
+        <div class="search-row">
+          <div class="search-box">
+            <span>⌕</span>
+            <input id="searchInput" type="search" placeholder="Search standards, details, utilities, jurisdictions…" autocomplete="off" />
+          </div>
+          <button id="clearFilters" class="secondary-btn">Clear</button>
+        </div>
+        <div class="filter-row">
+          <select id="jurisdictionFilter"><option value="">All jurisdictions</option></select>
+          <select id="disciplineFilter"><option value="">All disciplines</option></select>
+          <select id="categoryFilter"><option value="">All document types</option></select>
+        </div>
+      </section>
+
+      <div class="content-grid">
+        <aside class="jurisdiction-panel">
+          <div class="section-heading">
+            <h2>Jurisdictions</h2>
+            <span id="jurisdictionCount"></span>
+          </div>
+          <div id="jurisdictionList" class="jurisdiction-list"></div>
+        </aside>
+
+        <section class="results-panel">
+          <div class="section-heading">
+            <div>
+              <h2>Standards library</h2>
+              <p id="resultMeta">Loading records…</p>
+            </div>
+          </div>
+          <div id="documentList" class="document-list"></div>
+        </section>
+      </div>
+    </section>
+
+    <section id="view-changes" class="view">
+      <div class="page-header">
+        <span class="eyebrow">CHANGE INTELLIGENCE</span>
+        <h1>Source changes</h1>
+        <p>Detected changes stay in review until a person verifies what changed and whether it affects design requirements.</p>
+      </div>
+      <div id="changeList" class="change-list"></div>
+    </section>
+
+    <section id="view-about" class="view">
+      <div class="page-header about-copy">
+        <span class="eyebrow">HOW IT WORKS</span>
+        <h1>Built for traceability, not blind automation.</h1>
+        <p>CivilStandards indexes official jurisdictional sources and records when each source was last checked. A scheduled monitor creates a new version when source content changes and flags that event for human review.</p>
+        <div class="about-grid">
+          <article><b>1</b><h3>Index</h3><p>Store jurisdiction, agency, discipline, detail number, revision label, and official source URL.</p></article>
+          <article><b>2</b><h3>Monitor</h3><p>Fetch official sources on a schedule and compare normalized content hashes.</p></article>
+          <article><b>3</b><h3>Review</h3><p>Changed sources are marked “Needs review” instead of silently becoming approved design guidance.</p></article>
+        </div>
+        <div class="install-card">
+          <div>
+            <span class="eyebrow">APPLE READY</span>
+            <h3>Use it like an app on iPhone or iPad.</h3>
+            <p id="installHelpText">Open this site in Safari, tap Share, then choose <strong>Add to Home Screen</strong>. CivilStandards will launch in its own full-screen window.</p>
+          </div>
+          <button id="aboutInstallButton" class="primary-btn" type="button">Installation help</button>
+        </div>
+        <div class="disclaimer"><strong>Reference-use disclaimer:</strong> This MVP is an indexing and monitoring tool, not professional engineering advice. Users should verify governing requirements directly with the applicable agency before final design or submission.</div>
+      </div>
+    </section>
+
+    <section id="view-admin" class="view">
+      <div class="page-header">
+        <span class="eyebrow">REVIEWER CONSOLE</span>
+        <h1>Manage the standards index.</h1>
+        <p>Add official jurisdictions and source records. This MVP has no authentication, so the admin view is intended for local development only.</p>
+      </div>
+      <div class="admin-grid">
+        <form id="jurisdictionForm" class="admin-card">
+          <h2>Add jurisdiction</h2>
+          <label>State<input name="state" maxlength="2" placeholder="MD" required></label>
+          <label>Jurisdiction name<input name="name" placeholder="Baltimore County" required></label>
+          <label>Agency<input name="agency" placeholder="Department of Public Works"></label>
+          <label>Official agency URL<input name="official_url" type="url" placeholder="https://..."></label>
+          <button class="primary-btn" type="submit">Add jurisdiction</button>
+          <p class="form-message" id="jurisdictionMessage"></p>
+        </form>
+        <form id="documentForm" class="admin-card">
+          <h2>Add standards source</h2>
+          <label>Jurisdiction<select name="jurisdiction_id" id="adminJurisdiction" required></select></label>
+          <label>Title<input name="title" placeholder="Book of Standard Details" required></label>
+          <div class="two-col">
+            <label>Category<input name="category" placeholder="Standard Details" required></label>
+            <label>Discipline<input name="discipline" placeholder="Storm Drain" required></label>
+          </div>
+          <label>Detail / section number<input name="detail_number" placeholder="D-12 (optional)"></label>
+          <label>Official source URL<input name="source_url" type="url" placeholder="https://official-agency.gov/..." required></label>
+          <div class="two-col">
+            <label>File type<select name="file_type"><option>Web</option><option>PDF</option><option>DWG</option><option>DXF</option></select></label>
+            <label>Revision label<input name="revision_label" placeholder="2026"></label>
+          </div>
+          <label>Notes<textarea name="notes" rows="3" placeholder="What this source contains…"></textarea></label>
+          <button class="primary-btn" type="submit">Add source</button>
+          <p class="form-message" id="documentMessage"></p>
+        </form>
+      </div>
+      <div class="admin-card review-card">
+        <div class="section-heading"><div><h2>Change review queue</h2><p>Approve only after checking the governing source.</p></div></div>
+        <div id="adminChangeList"></div>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="installDialog" class="install-dialog">
+    <button class="dialog-close" id="installDialogClose" aria-label="Close">×</button>
+    <div class="dialog-body">
+      <span class="eyebrow">APPLE INSTALLATION</span>
+      <h2>Add CivilStandards to your Home Screen</h2>
+      <ol class="ios-steps">
+        <li><strong>Open this website in Safari.</strong> Home Screen installation does not work the same way from every in-app browser.</li>
+        <li>Tap the <strong>Share</strong> button in Safari.</li>
+        <li>Scroll and tap <strong>Add to Home Screen</strong>.</li>
+        <li>Tap <strong>Add</strong>. It will appear with the CivilStandards icon and open like a standalone app.</li>
+      </ol>
+      <p class="install-note">For live search, admin, and monitoring features, the Python server must be running on a Mac/server that this device can reach.</p>
+    </div>
+  </dialog>
+
+  <dialog id="documentDialog">
+    <button class="dialog-close" id="dialogClose" aria-label="Close">×</button>
+    <div id="dialogContent"></div>
+  </dialog>
+
+  <footer>
+    <span>CivilStandards MVP</span>
+    <span>Official-source links • Version tracking • Human review</span>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>

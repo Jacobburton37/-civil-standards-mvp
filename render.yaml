@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: civilstandards-mvp
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/stats
+    envVars:
+      - key: HOST
+        value: 0.0.0.0

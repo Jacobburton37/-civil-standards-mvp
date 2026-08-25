@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 from db import connect, init_db
 
 BASE = Path(__file__).resolve().parent
-STATIC = BASE / 'static'
+STATIC = BASE
 
 
 def rowdict(row):
